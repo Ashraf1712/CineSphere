@@ -1,8 +1,9 @@
 import axios from 'axios';
 
-export const fetchPopularMovies = async () => {
+export const fetchPopularMovies = async (endPoint: string, page: number) => {
   try {
-    const response = await fetch(`https://api.themoviedb.org/3/movie/popular?api_key=87dd60c03288f33cb2cae17ecefc50c1`)
+    const response = await fetch(`${process.env.API_URL}${endPoint}?api_key=${process.env.DATA_API_KEY}&page=${page}`)
+    // const response = await fetch(`${process.env.API_URL}/movie/popular?api_key=${process.env.DATA_API_KEY}`)
     const data = await response.json();
 
     console.log(data);
