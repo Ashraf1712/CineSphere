@@ -5,8 +5,6 @@ export const fetchPopularMovies = async (endPoint: string, page: number) => {
     const response = await fetch(`${process.env.API_URL}${endPoint}?api_key=${process.env.DATA_API_KEY}&page=${page}`)
     // const response = await fetch(`${process.env.API_URL}/movie/popular?api_key=${process.env.DATA_API_KEY}`)
     const data = await response.json();
-
-    console.log(data);
     return data;
     
   } catch (error) {
