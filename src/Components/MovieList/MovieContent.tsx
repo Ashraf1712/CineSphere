@@ -1,45 +1,27 @@
 "use client"
 import { useEffect, useState } from "react";
 import { fetchMovieByGenre, fetchPopularMovies,fetchMovieByRatings,fetchMovieByGenreAndRatings } from "@/Service/tmdbService";
-
+import React, { useContext } from 'react'
+import { Movie } from "@/app/types/Movie";
+import { MovieCard } from "../MovieCard/MovieCard";
+import { genres } from "@/utils/constant";
 interface MovieContentProps {
   fetchID: number;
   genre: any[];
   rating: any;
 }
 
-interface MoviePage {
-  results: Movie[];
-}
-
-interface Movie {
-  adult: boolean;
-  backdrop_path: string | null;
-  genre_ids: number[];
-  id: number;
-  original_language: string;
-  original_title: string;
-  overview: string;
-  popularity: number;
-  poster_path: string | null;
-  release_date: string;
-  title: string;
-  video: boolean;
-  vote_average: number;
-  vote_count: number;
-}
-
 const MovieContent: React.FC<MovieContentProps> = ({ fetchID, genre, rating }) => {
   const [data, setData] = useState<Movie[]>([]);
   const [temporaryData, setTemporaryData] = useState<Movie[]>([]);
   const [pageNumber, setPageNumber] = useState(1);
+  const [dropdownVisible, setDropdownVisible] = useState(false);
+  const [selectedGenres, setSelectedGenres] = useState([]);
 
   useEffect(() => {
-
-  
     let isMounted = true;
-    let moviesPage1: MoviePage = { results: [] };
-    let moviesPage2: MoviePage = { results: [] };
+    let moviesPage1: Movie[] = []
+    let moviesPage2: Movie[] = []
 
     const fetchMovies = async () => {
       try {
@@ -68,7 +50,7 @@ const MovieContent: React.FC<MovieContentProps> = ({ fetchID, genre, rating }) =
               return;
         }
         
-        const combinedResults = [...moviesPage1.results, ...moviesPage2.results];
+        const combinedResults = [...moviesPage1, ...moviesPage2];
 
         if (temporaryData.length > 0) {
           const currentPageResults = combinedResults.slice(10, 40);
@@ -92,6 +74,24 @@ const MovieContent: React.FC<MovieContentProps> = ({ fetchID, genre, rating }) =
     };
   }, [pageNumber, genre, rating]);
 
+  const toggleDropdown = () => {
+    setDropdownVisible(!dropdownVisible);
+};
+
+const handleCheckboxChange = (genreId: number[]) => {
+  setSelectedGenres(prevSelectedGenres => {
+      if (prevSelectedGenres.includes(genreId)) {
+          return prevSelectedGenres.filter(id => id !== genreId);
+      } else {
+          return [...prevSelectedGenres, genreId];
+      }
+  });
+
+  // Log the updated state value after it has been updated
+  console.log(selectedGenres);
+};
+
+
   const handleNextPage = () => {
     setPageNumber(pageNumber + 1);
   };
@@ -102,22 +102,51 @@ const MovieContent: React.FC<MovieContentProps> = ({ fetchID, genre, rating }) =
     }
   };
 
-  const handleSortByTitle = () => {
-    const sortedData = [...data].sort((a, b) => a.title.localeCompare(b.title));
-    setData(sortedData);
-  };
+  // const handleSortByTitle = () => {
+  //   const sortedData = [...data].sort((a, b) => a.title.localeCompare(b.title));
+  //   setData(sortedData);
+  // };
 
   return (
     <div>
-      <h1 className="text-xl font-bold mb-4">Popular Movies</h1>
-      <button onClick={handleSortByTitle} className="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Sort by Movie Title</button>
+            <div className="relative">
+          <div className="bg-blue-500 p-2" onClick={toggleDropdown}>
+              Filter
+          </div>
+          {dropdownVisible && (
+              <div className="absolute top-full left-0 bg-white border border-gray-300 p-4 shadow-md text-gray-700">
+                  {genres.map(genre => (
+                      <label key={genre.id} className="block">
+                          <input
+                              type="checkbox"
+                              value={genre.id}
+                              checked={selectedGenres.includes(genre.id)}
+                              onChange={() => handleCheckboxChange(genre.id)}
+                          />
+                          {genre.genre}
+                      </label>
+                  ))}
+              </div>
+          )}
+      </div>
 
-      <ol>
-        {data &&
-          data.map((movie: any, index: number) => (
-            <li key={index}>{index + 1}. {movie.title}</li>
-          ))}
-      </ol>
+      <h1 className="text-xl font-bold mb-4">Popular Movies</h1>
+      {/* <button onClick={handleSortByTitle} className="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Sort by Movie Title</button> */}
+      <div className="flex flex-wrap justify-center gap-5">
+  {data &&
+    data.map((movie: any, index: number) => (
+      <div key={index} className="w-full sm:w-1/3 md:w-1/4 lg:w-1/5 xl:w-1/6">
+        <MovieCard
+          id={movie.id}
+          image={movie.poster_path}
+          title={movie.title}
+          date={movie.release_date}
+          rating={movie.rating}
+        />
+      </div>
+    ))}
+</div>
+
       <button onClick={handlePreviousPage} disabled={pageNumber === 1} className={`mr-2 ${pageNumber === 1 ? "" : "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"}`}>Previous</button>
       <button onClick={handleNextPage} className="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
         Next

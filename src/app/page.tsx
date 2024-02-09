@@ -1,24 +1,7 @@
 "use client";
 
-import MovieContent from "@/Components/MovieContent";
-
-
-interface Movie {
-  adult: boolean;
-  backdrop_path: string | null;
-  genre_ids: number[];
-  id: number;
-  original_language: string;
-  original_title: string;
-  overview: string;
-  popularity: number;
-  poster_path: string | null;
-  release_date: string;
-  title: string;
-  video: boolean;
-  vote_average: number;
-  vote_count: number;
-}
+import MovieContent from "@/Components/MovieList/MovieContent";
+import { useState } from "react";
 
 
 export default function Home() {
@@ -38,11 +21,27 @@ export default function Home() {
   // FULLY FUNCTIONAL DECENT ON MOBILE AND TABLE SCREEN SIZES
 
 
+
   return (
     <div>
-        <MovieContent fetchID={1}/>
+      <h1>Nav</h1>
+
+      {/* SIDEBAR */}
+      <div className="flex flex-col">
+        {/* Main content */}
+        <div className="bg-green-500 mb-4">
+          <MovieContent fetchID={1}/>
+        </div>
+        {/* Filter */}
+
+      </div>
     </div>
   );
+
+
+  
+  
+  
   
   
 }
