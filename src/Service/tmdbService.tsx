@@ -1,10 +1,10 @@
 import axios from 'axios';
 
-const fetchPopularMovies = async (endPoint: string, page: number) => {
+const fetchPopularMovies = async ( page: number) => {
   try {
-    const response = await fetch(`${process.env.API_URL}${endPoint}?api_key=${process.env.DATA_API_KEY}&page=${page}`)
-    // const response = await fetch(`${process.env.API_URL}/movie/popular?api_key=${process.env.DATA_API_KEY}`)
+    const response = await fetch(`${process.env.API_URL}/movie/popular?api_key=${process.env.DATA_API_KEY}&page=${page}`)
     const data = await response.json();
+    console.log(data);
     return data;
     
   } catch (error) {
@@ -39,7 +39,7 @@ const fetchMovieByRatings = async (page: number, rating:number) => {
   try{
     const response = await fetch(`${process.env.API_URL}/discover/movie?api_key=${process.env.DATA_API_KEY}&page=${page}&vote_average.gte=${rating}`)
     const data = await response.json();
-    console.log(data);
+    console.log("Data" ,data);
     return data;
   }catch(error){
     console.error('Error fetching popular movies:', error)
