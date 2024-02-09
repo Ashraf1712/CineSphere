@@ -87,7 +87,6 @@ const handleCheckboxChange = (genreId: number[]) => {
       }
   });
 
-  // Log the updated state value after it has been updated
   console.log(selectedGenres);
 };
 
@@ -132,18 +131,18 @@ const handleCheckboxChange = (genreId: number[]) => {
 
       <h1 className="text-xl font-bold mb-4">Popular Movies</h1>
       {/* <button onClick={handleSortByTitle} className="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Sort by Movie Title</button> */}
-      <div className="flex flex-wrap justify-center gap-5">
+      <div className="flex flex-wrap justify-center gap-4">
   {data &&
     data.map((movie: any, index: number) => (
-      <div key={index} className="w-full sm:w-1/3 md:w-1/4 lg:w-1/5 xl:w-1/6">
         <MovieCard
+        key={index}
           id={movie.id}
           image={movie.poster_path}
           title={movie.title}
           date={movie.release_date}
-          rating={movie.rating}
+          rating={movie.vote_average}
+          description=""
         />
-      </div>
     ))}
 </div>
 

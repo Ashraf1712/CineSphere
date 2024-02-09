@@ -45,4 +45,16 @@ const fetchMovieByRatings = async (page: number, rating:number) => {
   }
 }
 
-export {fetchMovieByGenre,fetchPopularMovies, fetchMovieByRatings,fetchMovieByGenreAndRatings};
+const fetchMovieCastByMovieId = async (movieID: number) => {
+  try{
+    const response = await fetch(`${process.env.API_URL}/movie/${movieID}/credits?api_key=${process.env.DATA_API_KEY}`)
+    const data = await response.json();
+    console.log(data)
+    return data.cast
+
+  }catch(error){
+    console.error('Error fetching popular movies:', error)
+  }
+}
+
+export {fetchMovieByGenre,fetchPopularMovies, fetchMovieByRatings,fetchMovieByGenreAndRatings,fetchMovieCastByMovieId};
