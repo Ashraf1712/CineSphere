@@ -1,6 +1,6 @@
 "use client"
 import { useEffect, useState } from "react";
-import { fetchPopularMovies, fetchMovieByGenreAndRatings } from "@/Service/tmdbService";
+import { fetchMovieByGenreAndRatings } from "@/Service/tmdbService";
 import React, { useContext } from 'react'
 import { Movie, } from "@/types/Movie";
 import { MovieCard } from "../MovieCard/MovieCard";
@@ -26,25 +26,23 @@ const MovieContent: React.FC<MovieContentProps> = ({ sortResult, minRating, maxR
       try {
         let moviesPage1: Movie[] = [];
         let moviesPage2: Movie[] = [];
+        console.log(sortResult);
 
-
-        if (genreId.length > 0) {
-          moviesPage1 = await fetchMovieByGenreAndRatings(genreId, pageNumber, minRating, maxRating, sortResult);
-          moviesPage2 = await fetchMovieByGenreAndRatings(genreId, pageNumber + 1, minRating, maxRating, sortResult);
-        } else {
-          moviesPage1 = await fetchPopularMovies(pageNumber, sortResult);
-          moviesPage2 = await fetchPopularMovies(pageNumber + 1, sortResult);
-        }
+        moviesPage1 = await fetchMovieByGenreAndRatings(genreId, pageNumber, minRating, maxRating, sortResult);
+        moviesPage2 = await fetchMovieByGenreAndRatings(genreId, pageNumber + 1, minRating, maxRating, sortResult);
 
         const combinedResults = [...moviesPage1, ...moviesPage2];
+        console.log(combinedResults);
+        //Output: [1, 2, 2, 3, 4, 5, 5, 6, 7, 8, 8, 9, 10, 11, 11, 12] Make this pattern for page
 
         if (temporaryData.length > 0) {
-          const currentPageResults = combinedResults.slice(10, 40);
+          const currentPageResults = [...temporaryData, ...moviesPage2];
+          console.log("Temporary Current", currentPageResults)
           setData(currentPageResults);
           setTemporaryData([]);
         } else {
           const currentPageResults = combinedResults.slice(0, 30);
-          const temporaryResults = combinedResults.slice(currentPageResults.length, combinedResults.length);
+          const temporaryResults = combinedResults.slice(30);
           setData(currentPageResults);
           setTemporaryData(temporaryResults);
         }

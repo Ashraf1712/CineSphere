@@ -15,6 +15,7 @@ export interface Movie {
   vote_count: number;
 }
 
+
 export interface MovieCast {
   adult: boolean;
   cast_id: number;

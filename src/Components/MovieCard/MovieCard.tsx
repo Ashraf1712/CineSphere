@@ -4,6 +4,7 @@ import { StarIcon } from "@heroicons/react/16/solid";
 import { XMarkIcon } from "@heroicons/react/20/solid";
 import { MovieModal } from "./MovieModal";
 import formattedDate from "@/utils/helper";
+import defaultMovieImage from "@/../public/noimage.png";
 
 type MovieCardProps = {
     id: number,
@@ -33,12 +34,21 @@ export const MovieCard = ({ id, image, title, description, date, rating }: Movie
             <div className="bg-white rounded-lg shadow-lg overflow-hidden h-full transform transition-transform duration-300 hover:scale-105">
                 <a onClick={handleModalOpen} className="group cursor-pointer">
                     <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-t-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7">
-                        <Image
-                            src={`${process.env.IMAGE_URL}w500${image}?api_key=${process.env.DATA_API_KEY}`}
-                            alt="Movie Poster"
-                            width={500}
-                            height={300}
-                        />
+                        {image ? (
+                            <Image
+                                src={`${process.env.IMAGE_URL}w500${image}?api_key=${process.env.DATA_API_KEY}`}
+                                alt="Movie Poster"
+                                width={500}
+                                height={300}
+                            />
+                        ) : (
+                            <Image
+                                src={defaultMovieImage}
+                                alt="Movie Poster"
+                                width={500}
+                                height={300}
+                            />
+                        )}
                     </div>
                     <div className="p-4 flex justify-between items-center">
                         <div>
