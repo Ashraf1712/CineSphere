@@ -1,11 +1,13 @@
 import { useState } from "react";
 import Image from 'next/image';
 import { StarIcon } from "@heroicons/react/16/solid";
+import { XMarkIcon } from "@heroicons/react/20/solid";
 import { MovieModal } from "./MovieModal";
+import formattedDate from "@/utils/helper";
 
 type MovieCardProps = {
     id: number,
-    image: string,
+    image: string | null,
     title: string,
     description: string,
     date: string
@@ -14,20 +16,6 @@ type MovieCardProps = {
 
 export const MovieCard = ({ id, image, title, description, date, rating }: MovieCardProps) => {
     const [toggle, setToggle] = useState(false);
-
-    const formattedDate = (dateString: string): string => {
-        const months: string[] = [
-            "Jan", "Feb", "Mar", "Apr", "May", "June", 
-            "July", "Aug", "Sept", "Oct", "Nov", "Dec"
-        ];
-
-        const date: Date = new Date(dateString);
-        const month: string = months[date.getMonth()];
-        const day: number = date.getDate();
-        const year: number = date.getFullYear();
-
-        return `${month} ${day}, ${year}`;
-    };
 
     const formattedDateString: string = formattedDate(date);
     const roundedRating: string = rating.toFixed(1);
@@ -64,16 +52,16 @@ export const MovieCard = ({ id, image, title, description, date, rating }: Movie
                     </div>
                 </a>
             </div>
-            <MovieModal 
-                        id={id} 
-                        image={image} 
-                        title={title} 
-                        description={description} 
-                        date={date} 
-                        rating={rating} 
-                        isOpen={toggle} 
-                        onClose={handleModalClose} 
-                    />
+            <MovieModal
+                id={id}
+                image={image}
+                title={title}
+                description={description}
+                date={date}
+                rating={rating}
+                isOpen={toggle}
+                onClose={handleModalClose}
+            />
         </div>
     );
 }
