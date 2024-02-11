@@ -17,11 +17,10 @@ const fetchMovieByGenreAndRatings = async (genreId: number[], page: number, minR
     if (sort) {
       apiUrl += `&sort_by=${sort}`;
     }
-    console.log(apiUrl);
 
     const response = await fetch(apiUrl);
     const data = await response.json();
-    console.log(data);
+    // console.log(data);
     return data.results;
 
   } catch (error) {
