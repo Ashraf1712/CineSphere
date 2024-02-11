@@ -12,4 +12,4 @@ const formattedDate = (dateString: string): string => {
     return `${month} ${day}, ${year}`;
 };
 
-export default formattedDate;
+export { formattedDate }

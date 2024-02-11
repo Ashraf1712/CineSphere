@@ -4,8 +4,10 @@ import FilterGenre from "@/Components/Filter/FilterGenre";
 import FilterRating from "@/Components/Filter/FilterRating";
 import MovieContent from "@/Components/MovieList/MovieContent";
 import SortResult from "@/Components/Sort/SortResult";
-import { useState } from "react";
-import { Genre, genres as allGenres } from "../types/Movie";
+import { useState, useEffect } from "react";
+import { genres as allGenres } from "../types/Movie";
+import AnimatedHamburgerButton from "@/Components/Button/AnimatedHamburgerButton";
+import { Button } from "@chakra-ui/react";
 
 
 export default function Home() {
@@ -25,7 +27,7 @@ export default function Home() {
   //       c. RELEASE DATE
   //       d. CAST
 
-  // FULLY FUNCTIONAL DECENT ON MOBILE AND TABLE SCREEN SIZES
+  // FULLY FUNCTIONAL DECENT ON MOBILE AND TABLE SCREEN SIZES (IN PROGRESS)
 
   const [selectedSortOption, setSelectedSortOption] = useState<string>('popularity.desc');
   const [selectedGenres, setSelectedGenres] = useState<number[]>([]);
@@ -33,6 +35,9 @@ export default function Home() {
   const [minRating, setMinRating] = useState<number>(0);
   const [maxRating, setMaxRating] = useState<number>(10);
   const [dummyState, setDummyState] = useState(false);
+  const [navOpen, setNavOpen] = useState(false);
+
+
 
   const handleRatingChange = (newMinRating: number, newMaxRating: number) => {
     setMinRating(newMinRating);
@@ -59,28 +64,69 @@ export default function Home() {
   const handleSearch = async () => {
     setDummyState(prevState => !prevState);
   };
+  const toggleNav = () => {
+    setNavOpen(!navOpen);
+    if (!navOpen) {
+      setDropdownVisible(false);
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'auto';
+    }
+  }
+  const handleBackgroundClick = () => {
+    if (navOpen) {
+      toggleNav();
+    }
+  };
 
 
   return (
-    <div>
-      <SortResult selectedOption={selectedSortOption} onSortChange={handleSortChange} />
-      <FilterGenre
-        genres={allGenres}
-        selectedGenres={selectedGenres}
-        handleCheckboxChange={handleCheckboxChange}
-        dropdownVisible={dropdownVisible}
-        toggleDropdown={toggleDropdown}
-      />
-      <div className="w-64 bg-white h-full">
-        <FilterRating min={1} max={10} minRating={minRating} maxRating={maxRating} handleRatingChange={handleRatingChange} />
-      </div>
+    <>
+      <div className={`fixed ${navOpen ? 'backdrop-blur-md inset-0' : 'relative'} bg-black bg-opacity-50 z-30 overflow-hidden`} onClick={handleBackgroundClick}>
+        <div className={`fixed w-full ${navOpen ? 'inset-0' : ''}`}>
+          <nav className="flex justify-between items-center p-4 bg-gray-800 text-white">
+            <div className="z-20">
+              <AnimatedHamburgerButton onClick={toggleNav} isOpen={navOpen} />
+            </div>
+            <div className={`absolute top-0 left-0 h-full w-2/3 bg-gray-600 z-999 transition-all duration-300 ${navOpen ? 'opacity-100' : 'opacity-0 -translate-x-full'}`} onClick={(e) => e.stopPropagation()}>
+              <div className="flex flex-col h-full pt-14">
+                <div className="flex-grow">
+                  <div className="flex-row">
+                    <p className=" px-5 font-semibold">Filters</p>
+                  </div>
 
-      <div className="flex flex-col">
-        <div className="bg-green-500 mb-4">
-          <button onClick={handleSearch}>Search</button>
-          <MovieContent sortResult={selectedSortOption} minRating={minRating} maxRating={maxRating} genreId={selectedGenres} dummyState={dummyState} />
+                  <div className="flex-row p-5">
+                    <SortResult labelText={"Sort By"} selectedOption={selectedSortOption} onSortChange={handleSortChange} />
+                  </div>
+
+                  <div className="flex-row p-5 ">
+                    <FilterGenre
+                      labelText={"Genre"}
+                      genres={allGenres}
+                      selectedGenres={selectedGenres}
+                      handleCheckboxChange={handleCheckboxChange}
+                      dropdownVisible={dropdownVisible}
+                      toggleDropdown={toggleDropdown}
+                    />
+                  </div>
+                  <div className="flex-row p-5">
+                    <FilterRating labelText={"Ratings"} min={0} max={10} minRating={minRating} maxRating={maxRating} handleRatingChange={handleRatingChange} />
+                  </div>
+                </div>
+                <div className="flex-row p-5 justify-end">
+                  {/* <button onClick={handleSearch}>Search</button> */}
+                  <Button className="w-full rounded-3xl" colorScheme='red' onClick={handleSearch}>Search</Button>
+                </div>
+              </div>
+            </div>
+
+          </nav>
         </div>
       </div>
-    </div>
+      <div className="bg-green-500 mb-4 z-10">
+        <MovieContent sortResult={selectedSortOption} minRating={minRating} maxRating={maxRating} genreId={selectedGenres} dummyState={dummyState} />
+      </div>
+    </>
   );
+
 }

@@ -2,6 +2,7 @@ import React from "react";
 import { Slider } from "antd";
 
 interface FilterRatingProps {
+    labelText: string;
     min: number;
     max: number;
     minRating: number;
@@ -10,6 +11,7 @@ interface FilterRatingProps {
 }
 
 const FilterRating: React.FC<FilterRatingProps> = ({
+    labelText,
     min,
     max,
     minRating,
@@ -22,14 +24,19 @@ const FilterRating: React.FC<FilterRatingProps> = ({
     };
 
     return (
-        <Slider
-            range
-            min={min}
-            max={max}
-            defaultValue={[minRating, maxRating]}
-            onChange={handleChange} // @ts-ignore
+        <div>
+            <div>
+                {labelText}
+            </div>
+            <Slider
+                range
+                min={min}
+                max={max}
+                defaultValue={[minRating, maxRating]}
+                onChange={handleChange} // @ts-ignore
 
-        />
+            />
+        </div>
     );
 };
 

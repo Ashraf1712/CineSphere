@@ -1,7 +1,7 @@
 "use client"
 import { useEffect, useState } from "react";
 import { fetchMovieByGenreAndRatings } from "@/Service/tmdbService";
-import React, { useContext, useRef } from 'react'
+import React, { useRef } from 'react'
 import { Movie, } from "@/types/Movie";
 import { MovieCard } from "../MovieCard/MovieCard";
 
@@ -59,7 +59,6 @@ const MovieContent: React.FC<MovieContentProps> = ({ sortResult, minRating, maxR
         console.error("Error fetching movies:", error);
       }
     };
-    console.log(pageNumber);
 
     fetchMovies();
 
@@ -77,6 +76,7 @@ const MovieContent: React.FC<MovieContentProps> = ({ sortResult, minRating, maxR
 
   const handlePreviousPage = () => {
     if (pageNumber > 1) {
+      count.current--;
       setPageNumber(pageNumber - 1);
     }
 
@@ -103,6 +103,7 @@ const MovieContent: React.FC<MovieContentProps> = ({ sortResult, minRating, maxR
             date={movie.release_date}
             rating={movie.vote_average}
             description={movie.overview}
+            genreId={movie.genre_ids}
           />
         ))}
       </div>

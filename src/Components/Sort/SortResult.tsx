@@ -1,4 +1,6 @@
+import { Select } from '@chakra-ui/react';
 import React from 'react';
+
 
 interface SortOption {
     value: string;
@@ -8,9 +10,10 @@ interface SortOption {
 interface SortResultProps {
     selectedOption: string;
     onSortChange: (selectedOption: string) => void;
+    labelText: string;
 }
 
-const SortResult: React.FC<SortResultProps> = ({ selectedOption, onSortChange }) => {
+const SortResult: React.FC<SortResultProps> = ({ selectedOption, onSortChange, labelText }) => {
     const sortOptions: SortOption[] = [
         { value: 'popularity.desc', label: 'Popularity Descending' },
         { value: 'popularity.asc', label: 'Popularity Ascending' },
@@ -28,11 +31,15 @@ const SortResult: React.FC<SortResultProps> = ({ selectedOption, onSortChange })
     };
 
     return (
-        <select className="bg-gray-500" id="sort_by" value={selectedOption} onChange={handleSortChange}>
-            {sortOptions.map((option, index) => (
-                <option key={index} value={option.value}>{option.label}</option>
-            ))}
-        </select>
+        <div>
+            {labelText}
+            <Select className="font-semibold" color="black" bg="white" id="sort_by" value={selectedOption} onChange={handleSortChange}>
+                {sortOptions.map((option, index) => (
+                    <option key={index} value={option.value}>{option.label}</option>
+                ))}
+            </Select>
+        </div>
+
     );
 };
 

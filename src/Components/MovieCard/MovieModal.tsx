@@ -3,7 +3,8 @@ import Image from 'next/image';
 import { StarIcon, XMarkIcon } from "@heroicons/react/16/solid";
 import { fetchMovieCastByMovieId } from "@/Service/tmdbService";
 import { MovieCast } from "@/types/Movie";
-import formattedDate from "@/utils/helper";
+import { formattedDate } from "@/utils/helper";
+import BlankProfile from "@/../public/blankProfile.png"
 
 
 type MovieModalProps = {
@@ -15,6 +16,7 @@ type MovieModalProps = {
     date: string,
     rating: number,
     onClose: () => void,
+
 }
 
 export const MovieModal = ({ id, image, title, description, date, rating, isOpen, onClose }: MovieModalProps) => {
@@ -32,7 +34,6 @@ export const MovieModal = ({ id, image, title, description, date, rating, isOpen
                 const fetchedData = await fetchMovieCastByMovieId(id);
                 setCast(fetchedData.slice(0, 10));
             }
-
             fetchCast();
             disableScroll();
         } else {
@@ -72,8 +73,8 @@ export const MovieModal = ({ id, image, title, description, date, rating, isOpen
                                 <Image
                                     src={`${process.env.IMAGE_URL}w500${image}?api_key=${process.env.DATA_API_KEY}`}
                                     alt="Movie Poster"
-                                    width={600} // Increase width for larger poster
-                                    height={900} // Increase height for larger poster
+                                    width={600}
+                                    height={900}
                                 />
                             </div>
                             {/* Movie Details */}
@@ -98,12 +99,18 @@ export const MovieModal = ({ id, image, title, description, date, rating, isOpen
                                         <div className="bg-white rounded-lg shadow-lg overflow-hidden w-28 h-full">
                                             <a className="group">
                                                 <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-t-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7">
-                                                    <Image
+                                                    {member.profile_path ? <Image
                                                         src={`https://image.tmdb.org/t/p/original${member.profile_path}`}
                                                         alt={member.name}
                                                         width={300}
                                                         height={300}
-                                                    />
+                                                    /> :
+                                                        <Image
+                                                            src={BlankProfile}
+                                                            alt={member.name}
+                                                            width={300}
+                                                            height={300}
+                                                        />}
                                                 </div>
                                                 <div className="p-4">
                                                     <p className="text-sm text-gray-700 font-bold">{member.name}</p>

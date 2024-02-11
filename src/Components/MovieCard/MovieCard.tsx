@@ -3,8 +3,10 @@ import Image from 'next/image';
 import { StarIcon } from "@heroicons/react/16/solid";
 import { XMarkIcon } from "@heroicons/react/20/solid";
 import { MovieModal } from "./MovieModal";
-import formattedDate from "@/utils/helper";
+import { formattedDate } from "@/utils/helper";
 import defaultMovieImage from "@/../public/noimage.png";
+import { Genre, genres } from '@/types/Movie';
+
 
 type MovieCardProps = {
     id: number,
@@ -13,9 +15,10 @@ type MovieCardProps = {
     description: string,
     date: string
     rating: number,
+    genreId: number[],
 }
 
-export const MovieCard = ({ id, image, title, description, date, rating }: MovieCardProps) => {
+export const MovieCard = ({ id, image, title, description, date, rating, genreId }: MovieCardProps) => {
     const [toggle, setToggle] = useState(false);
 
     const formattedDateString: string = formattedDate(date);
@@ -28,6 +31,13 @@ export const MovieCard = ({ id, image, title, description, date, rating }: Movie
     const handleModalClose = () => {
         setToggle(false);
     }
+
+    const genreNames = genreId.map((id) => {
+        const genre = genres.find((g) => g.id === id);
+        return genre ? genre.genre : '';
+    });
+
+    const genreList = genreNames.join(' . ');
 
     return (
         <div className="mx-auto max-w-2xl px-16 py-16 lg:px-2 sm:px-4  w-full sm:w-1/3 md:w-1/4 lg:w-1/5 xl:w-1/6">
@@ -54,6 +64,15 @@ export const MovieCard = ({ id, image, title, description, date, rating }: Movie
                         <div>
                             <h3 className="text-lg text-gray-700 font-bold">{title}</h3>
                             <p className="text-lg font-medium text-gray-900">{formattedDateString}</p>
+                            {/* <div className="">{genreList}</div> */}
+                            <div className="flex space-x-1">
+                                {genreNames.map((genre, index) => (
+                                    <div key={index}>
+                                        <span>{genre}</span>
+                                        {index !== genreNames.length - 1 && <span className="dot"> . </span>}
+                                    </div>
+                                ))}
+                            </div>
                         </div>
                         <div className="flex items-center">
                             <p className="text-lg font-medium text-gray-900">{roundedRating}</p>
