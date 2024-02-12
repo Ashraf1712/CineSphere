@@ -19,7 +19,8 @@ export default function RootLayout({
     <html lang='en' className="bg-neutral-900">
       <body>
         <Providers>
-          {children}</Providers>
+          {children}
+        </Providers>
       </body>
     </html>
   )

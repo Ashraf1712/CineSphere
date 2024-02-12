@@ -39,7 +39,6 @@ export const MovieCard = ({ id, image, title, description, date, rating, genreId
 
 
     return (
-        // <div className="w-full max-w-2xl px-16 py-16 mx-auto lg:px-2 sm:px-4 sm:w-1/3 md:w-1/4 lg:w-1/5 xl:w-1/6">
         <div className="h-auto mx-auto w-full ">
             <div className="transition-transform duration-300 transform  rounded-md shadow-lg h-300 hover:scale-105">
                 <a onClick={handleModalOpen} className="cursor-pointer group">

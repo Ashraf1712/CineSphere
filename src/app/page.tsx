@@ -1,9 +1,8 @@
 "use client"
 
-import React, { useRef, useEffect, useState } from 'react';
-import { Genre, genres as allGenres } from '@/types/Movie';
-import { Checkbox, Box, Icon, Button } from '@chakra-ui/react';
-import { MdKeyboardArrowDown } from 'react-icons/md';
+import React, { useEffect, useState } from 'react';
+import { genres as allGenres } from '@/types/Movie';
+import { Button } from '@chakra-ui/react';
 import AnimatedHamburgerButton from '@/Components/Button/AnimatedHamburgerButton';
 import FilterGenre from '@/Components/Filter/FilterGenre';
 import FilterRating from '@/Components/Filter/FilterRating';
@@ -91,9 +90,9 @@ const Home: React.FC = () => {
     setNavOpen(!navOpen);
     if (!navOpen) {
       setDropdownVisible(false);
-      document.body.style.overflow = 'hidden';
-    } else {
       document.body.style.overflow = 'auto';
+    } else {
+      document.body.style.overflow = 'hidden';
     }
   }
 
@@ -107,7 +106,8 @@ const Home: React.FC = () => {
         setMaxRating(tempState.maxRating);
       }
     }
-    toggleNav();
+    // setNavOpen(false);
+
   };
 
   const scrollMode = () => {
@@ -121,20 +121,23 @@ const Home: React.FC = () => {
   return (
     <>
       <div className={`fixed ${navOpen ? 'backdrop-blur-md inset-0' : 'relative'} bg-black bg-opacity-50 z-30 overflow-hidden`} onClick={handleBackgroundClick}>
-
         <div className={`fixed w-full ${navOpen ? 'inset-0' : ''}`}>
-          <nav className="flex justify-between items-center p-4 bg-neutral-900 text-white">
-            <div className="flex flex-wrap justify-between gap-2 z-20">
+          <nav className="flex items-center p-4 bg-neutral-900 text-white">
+
+            <div className='z-20'>
               <AnimatedHamburgerButton onClick={toggleNav} isOpen={navOpen} />
+            </div>
+
+
+            <div className='pl-5'>
               <p className="font-bebas">CineSphere</p>
             </div>
-            <div className={`absolute top-0 left-0 h-full w-2/3 sm:w-1/2 md:w-1/3 lg:w-1/4 bg-gray-600 z-999 transition-all duration-300 ${navOpen ? 'opacity-100' : 'opacity-0 -translate-x-full'}`} onClick={(e) => e.stopPropagation()}>
-              <div className="flex flex-col h-full pt-14">
-                <div className="flex-grow">
+            <div className={`absolute top-0 left-0 h-full w-2/3 sm:w-1/2 md:w-1/3 lg:w-1/4 bg-gray-600 z-999  duration-300 ${navOpen ? 'opacity-100' : ' opacity-0 -translate-x-full '}`} onClick={(e) => e.stopPropagation()}>
+              <div className="flex flex-col h-full pt-14 ">
+                <div className="flex-grow h-full bg-gray-600 ">
                   <div className="flex-row">
                     <p className=" px-5 p-3 font-bold text-4xl">Filters</p>
                   </div>
-
                   <div className="flex-row p-5">
                     <SortResult labelText={"Sort By"} selectedOption={selectedSortOption} onSortChange={handleSortChange} />
                   </div>
