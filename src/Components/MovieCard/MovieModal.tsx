@@ -15,14 +15,15 @@ type MovieModalProps = {
     title: string;
     description: string;
     date: string;
-    rating: number;
+    rating?: number;
     onClose: () => void;
-    genreNames: string[];
+    genreNames?: string[];
 }
 
 export const MovieModal = ({ id, image, title, description, date, rating, isOpen, onClose, genreNames }: MovieModalProps) => {
     const [cast, setCast] = useState<MovieCast[]>([]);
     const year = new Date(date).getFullYear();
+    const genreNamesArray = genreNames || [];
 
     const closeModal = () => {
         onClose();
@@ -51,7 +52,7 @@ export const MovieModal = ({ id, image, title, description, date, rating, isOpen
     }
 
     const formattedDateString: string = formattedDate(date);
-    const roundedRating: string = rating.toFixed(1);
+    const roundedRating: string = rating ? rating.toFixed(1) : '0.0';
 
     const handleBackgroundClick = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
         if (event.target === event.currentTarget) {
@@ -91,11 +92,11 @@ export const MovieModal = ({ id, image, title, description, date, rating, isOpen
                                     </p>
                                     <div className="text-white pr-2">•</div>
                                     {/* GENRE HERE */}
-                                    <div className={`col-span-${genreNames.length} md:flex`}>
-                                        {genreNames.map((genre, index) => (
+                                    <div className={`col-span-${genreNamesArray.length} md:flex`}>
+                                        {genreNamesArray.map((genre, index) => (
                                             <div key={index} >
                                                 <span className="font-normal text-white ">{genre}</span>
-                                                {index !== genreNames.length - 1 && <span className="font-bold text-white"> ,</span>}
+                                                {index !== genreNamesArray.length - 1 && <span className="font-bold text-white"> ,</span>}
                                             </div>
                                         ))}
 

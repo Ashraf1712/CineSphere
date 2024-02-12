@@ -12,11 +12,14 @@ interface MovieContentProps {
   maxRating: number;
   genreId: number[];
   dummyState: boolean;
+
+
 }
 
 const MovieContent: React.FC<MovieContentProps> = ({ sortResult, minRating, maxRating, genreId, dummyState }) => {
   const [data, setData] = useState<Movie[]>([]);
   const [pageNumber, setPageNumber] = useState(1);
+  const [isFiltering, setIsFiltering] = useState(false);
   let count = useRef(0);
 
   useEffect(() => {
@@ -67,7 +70,13 @@ const MovieContent: React.FC<MovieContentProps> = ({ sortResult, minRating, maxR
     };
   }, [pageNumber, dummyState]);
 
-
+  useEffect(() => {
+    if (isFiltering) {
+      setPageNumber(1);
+      count.current = 0;
+      setIsFiltering(false);
+    }
+  }, [genreId, minRating, maxRating, sortResult, isFiltering]);
 
   const handleNextPage = () => {
     setPageNumber(pageNumber + 1);

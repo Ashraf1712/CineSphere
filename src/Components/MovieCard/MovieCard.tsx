@@ -15,14 +15,14 @@ type MovieCardProps = {
     title: string,
     description: string,
     date: string
-    rating: number,
-    genreId: number[],
+    rating?: number,
+    genreId?: number[],
 }
 
 export const MovieCard = ({ id, image, title, description, date, rating, genreId }: MovieCardProps) => {
     const [toggle, setToggle] = useState(false);
     const formattedDateString: string = formattedDate(date);
-    const roundedRating: string = rating.toFixed(1);
+    const roundedRating: string = rating ? rating.toFixed(1) : '0.0';
 
     const handleModalOpen = () => {
         setToggle(true);
@@ -32,10 +32,10 @@ export const MovieCard = ({ id, image, title, description, date, rating, genreId
         setToggle(false);
     }
 
-    const genreNames = genreId.map((id) => {
+    const genreNames: string[] = genreId ? genreId.map((id) => {
         const genre = genres.find((g) => g.id === id);
         return genre ? genre.genre : '';
-    });
+    }) : [];
 
 
     return (

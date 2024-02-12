@@ -1,20 +1,18 @@
-"use client";
+"use client"
 
-import FilterGenre from "@/Components/Filter/FilterGenre";
-import FilterRating from "@/Components/Filter/FilterRating";
-import MovieContent from "@/Components/MovieList/MovieContent";
-import SortResult from "@/Components/Sort/SortResult";
-import { useState, useEffect } from "react";
-import { genres as allGenres } from "../types/Movie";
-import AnimatedHamburgerButton from "@/Components/Button/AnimatedHamburgerButton";
-import { Button } from "@chakra-ui/react";
-import {
-  BsFillArrowUpCircleFill,
-} from "react-icons/bs";
+import React, { useRef, useEffect, useState } from 'react';
+import { Genre, genres as allGenres } from '@/types/Movie';
+import { Checkbox, Box, Icon, Button } from '@chakra-ui/react';
+import { MdKeyboardArrowDown } from 'react-icons/md';
+import AnimatedHamburgerButton from '@/Components/Button/AnimatedHamburgerButton';
+import FilterGenre from '@/Components/Filter/FilterGenre';
+import FilterRating from '@/Components/Filter/FilterRating';
+import SortResult from '@/Components/Sort/SortResult';
+import MovieContent from '@/Components/MovieList/MovieContent';
+import { BsFillArrowUpCircleFill } from 'react-icons/bs';
 
+const Home: React.FC = () => {
 
-
-export default function Home() {
   //TODO (DONE) : FILTER BUTTON FOR GENRE AND RATINGS
   //        => CHECK IF GENRE IS NOT NULL , FETCH BY GENRE 
   //        => CHECK IF RATING IS NOT NULL , FETCH BY RATING
@@ -32,7 +30,6 @@ export default function Home() {
   //       d. CAST
 
   // FULLY FUNCTIONAL DECENT ON MOBILE AND TABLE SCREEN SIZES (IN PROGRESS)
-
   const [selectedSortOption, setSelectedSortOption] = useState<string>('popularity.desc');
   const [selectedGenres, setSelectedGenres] = useState<number[]>([]);
   const [dropdownVisible, setDropdownVisible] = useState(false);
@@ -40,7 +37,25 @@ export default function Home() {
   const [maxRating, setMaxRating] = useState<number>(10);
   const [dummyState, setDummyState] = useState(false);
   const [navOpen, setNavOpen] = useState(false);
+  const [isFiltering, setIsFiltering] = useState(false);
 
+  const [tempState, setTempState] = useState<{
+    selectedSortOption: string;
+    selectedGenres: number[];
+    minRating: number;
+    maxRating: number;
+  } | null>(null);
+
+  useEffect(() => {
+    if (navOpen) {
+      setTempState({
+        selectedSortOption,
+        selectedGenres,
+        minRating,
+        maxRating
+      });
+    }
+  }, [navOpen]);
 
   const handleRatingChange = (newMinRating: number, newMaxRating: number) => {
     setMinRating(newMinRating);
@@ -49,10 +64,9 @@ export default function Home() {
 
   const handleSortChange = (selectedOption: string) => {
     setSelectedSortOption(selectedOption);
-
   };
 
-  const handleCheckboxChange = async (genreId: number) => {
+  const handleCheckboxChange = (genreId: number) => {
     setSelectedGenres(prevSelectedGenres => {
       if (prevSelectedGenres.includes(genreId)) {
         return prevSelectedGenres.filter(id => id !== genreId);
@@ -61,11 +75,13 @@ export default function Home() {
       }
     });
   };
+
   const toggleDropdown = () => {
     setDropdownVisible(!dropdownVisible);
   };
 
   const handleSearch = async () => {
+    setTempState(null);
     setDummyState(prevState => !prevState);
     toggleNav();
   };
@@ -79,17 +95,23 @@ export default function Home() {
       document.body.style.overflow = 'auto';
     }
   }
+
   const handleBackgroundClick = () => {
     if (navOpen) {
-      toggleNav();
+      setNavOpen(false);
+      if (tempState) {
+        setSelectedSortOption(tempState.selectedSortOption);
+        setSelectedGenres(tempState.selectedGenres);
+        setMinRating(tempState.minRating);
+        setMaxRating(tempState.maxRating);
+      }
     }
+    toggleNav();
   };
 
   const scrollMode = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
-
   };
-
 
   return (
     <>
@@ -99,13 +121,13 @@ export default function Home() {
           <nav className="flex justify-between items-center p-4 bg-neutral-900 text-white">
             <div className="flex flex-wrap justify-between gap-2 z-20">
               <AnimatedHamburgerButton onClick={toggleNav} isOpen={navOpen} />
-              <p className="font-bebas" >CineSphere</p>
+              <p className="font-bebas">CineSphere</p>
             </div>
             <div className={`absolute top-0 left-0 h-full w-2/3 sm:w-1/2 md:w-1/3 lg:w-1/4 bg-gray-600 z-999 transition-all duration-300 ${navOpen ? 'opacity-100' : 'opacity-0 -translate-x-full'}`} onClick={(e) => e.stopPropagation()}>
               <div className="flex flex-col h-full pt-14">
                 <div className="flex-grow">
                   <div className="flex-row">
-                    <p className=" px-5 font-semibold">Filters</p>
+                    <p className=" px-5 p-3 font-bold text-4xl">Filters</p>
                   </div>
 
                   <div className="flex-row p-5">
@@ -127,7 +149,6 @@ export default function Home() {
                   </div>
                 </div>
                 <div className="flex-row p-5 justify-end">
-                  {/* <button onClick={handleSearch}>Search</button> */}
                   <Button className="w-full rounded-3xl" colorScheme='red' onClick={handleSearch}>Search</Button>
                 </div>
               </div>
@@ -144,5 +165,6 @@ export default function Home() {
       </div>
     </>
   );
+};
 
-}
+export default Home;

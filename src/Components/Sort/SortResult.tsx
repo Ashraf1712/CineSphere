@@ -31,14 +31,16 @@ const SortResult: React.FC<SortResultProps> = ({ selectedOption, onSortChange, l
     };
 
     return (
-        <div>
-            {labelText}
-            <Select className="font-semibold" color="black" bg="white" id="sort_by" value={selectedOption} onChange={handleSortChange}>
+        <>
+            <div className='pb-2 font-semibold'>
+                {labelText}
+            </div>
+            <Select _hover={{ bg: 'gray.200' }} cursor="pointer" className="font-semibold" color="black" bg="white" id="sort_by" value={selectedOption} onChange={handleSortChange}>
                 {sortOptions.map((option, index) => (
                     <option key={index} value={option.value}>{option.label}</option>
                 ))}
             </Select>
-        </div>
+        </>
 
     );
 };
