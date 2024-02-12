@@ -53,6 +53,9 @@ const Home: React.FC = () => {
         minRating,
         maxRating
       });
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'auto';
     }
   }, [navOpen]);
 
@@ -90,9 +93,6 @@ const Home: React.FC = () => {
     setNavOpen(!navOpen);
     if (!navOpen) {
       setDropdownVisible(false);
-      document.body.style.overflow = 'auto';
-    } else {
-      document.body.style.overflow = 'hidden';
     }
   }
 
@@ -106,8 +106,6 @@ const Home: React.FC = () => {
         setMaxRating(tempState.maxRating);
       }
     }
-    // setNavOpen(false);
-
   };
 
   const scrollMode = () => {
@@ -118,11 +116,12 @@ const Home: React.FC = () => {
     setIsFiltering(value);
   };
 
+
   return (
     <>
       <div className={`fixed ${navOpen ? 'backdrop-blur-md inset-0' : 'relative'} bg-black bg-opacity-50 z-30 overflow-hidden`} onClick={handleBackgroundClick}>
-        <div className={`fixed w-full ${navOpen ? 'inset-0' : ''}`}>
-          <nav className="flex items-center p-4 bg-neutral-900 text-white">
+        <div className={`fixed w-full ${navOpen ? 'inset-0' : ''}`} >
+          <nav className="flex items-center p-4 bg-neutral-900 text-white" >
 
             <div className='z-20'>
               <AnimatedHamburgerButton onClick={toggleNav} isOpen={navOpen} />
@@ -130,7 +129,7 @@ const Home: React.FC = () => {
 
 
             <div className='pl-5'>
-              <p className="font-bebas">CineSphere</p>
+              <p className="font-kanit text-xl">CineSphere</p>
             </div>
             <div className={`absolute top-0 left-0 h-full w-2/3 sm:w-1/2 md:w-1/3 lg:w-1/4 bg-gray-600 z-999  duration-300 ${navOpen ? 'opacity-100' : ' opacity-0 -translate-x-full '}`} onClick={(e) => e.stopPropagation()}>
               <div className="flex flex-col h-full pt-14 ">

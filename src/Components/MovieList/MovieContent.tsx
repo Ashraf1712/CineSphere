@@ -94,7 +94,7 @@ const MovieContent: React.FC<MovieContentProps> = ({ sortResult, minRating, maxR
 
   return (
     <div>
-      <div className="pt-16">
+      <div className="pt-24">
         <div className="mx-auto bg-neutral-800  ml-16 mr-16 shadow-lg rounded-sm">
           <p className="p-4 text-2xl font-bold text-white">Popular Movies</p>
         </div>

@@ -67,14 +67,14 @@ export const MovieModal = ({ id, image, title, description, date, rating, isOpen
 
                 <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center backdrop-blur-md bg-black bg-opacity-50 z-50 p-5" onClick={handleBackgroundClick}>
 
-                    <div className="bg-neutral-500 rounded-lg shadow-lg max-w-screen-md w-full h-full overflow-y-auto p-3 relative">
+                    <div className="bg-gray-600 rounded-lg shadow-lg max-w-screen-md w-full h-full overflow-y-auto p-3 relative">
                         <div className="justify-end flex">
                             <CloseButton size='lg' color={"white"} onClick={closeModal} />
                         </div>
 
                         <div className="p-2 grid grid-rows-3 grid-flow-col gap-4  ">
                             {/* Movie Poster */}
-                            <div className="rounded-lg  p-4 row-span-3">
+                            <div className="  p-4 row-span-3">
                                 <Image
                                     className="rounded-lg"
                                     src={`${process.env.IMAGE_URL}w500${image}?api_key=${process.env.DATA_API_KEY}`}
@@ -117,7 +117,7 @@ export const MovieModal = ({ id, image, title, description, date, rating, isOpen
                             <div className="flex overflow-x-auto gap-4 p-2">
                                 {cast.map(member => (
                                     <div key={member.id} className="flex-shrink-0 mr-4">
-                                        <div className="bg-white rounded-lg shadow-lg overflow-hidden w-28 h-full">
+                                        <div className=" rounded-lg shadow-lg overflow-hidden w-28 h-full">
                                             <a className="group">
                                                 <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-t-lg xl:aspect-h-8 xl:aspect-w-7">
                                                     {member.profile_path ? <Image
@@ -133,7 +133,7 @@ export const MovieModal = ({ id, image, title, description, date, rating, isOpen
                                                             height={300}
                                                         />}
                                                 </div>
-                                                <div className="p-4">
+                                                <div className="p-4 bg-white h-full">
                                                     <p className="text-sm text-gray-700 font-bold">{member.name}</p>
                                                     <p className="text-sm text-gray-600">{member.character}</p>
                                                 </div>
