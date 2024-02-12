@@ -81,6 +81,7 @@ const Home: React.FC = () => {
   };
 
   const handleSearch = async () => {
+    setIsFiltering(true);
     setTempState(null);
     setDummyState(prevState => !prevState);
     toggleNav();
@@ -111,6 +112,10 @@ const Home: React.FC = () => {
 
   const scrollMode = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleFilteringChange = (value: boolean) => {
+    setIsFiltering(value);
   };
 
   return (
@@ -161,7 +166,7 @@ const Home: React.FC = () => {
         <BsFillArrowUpCircleFill onClick={scrollMode} />
       </div>
       <div className="bg-neutral-900 mb-4 z-10">
-        <MovieContent sortResult={selectedSortOption} minRating={minRating} maxRating={maxRating} genreId={selectedGenres} dummyState={dummyState} />
+        <MovieContent setFiltering={handleFilteringChange} isFiltering={isFiltering} sortResult={selectedSortOption} minRating={minRating} maxRating={maxRating} genreId={selectedGenres} dummyState={dummyState} />
       </div>
     </>
   );
