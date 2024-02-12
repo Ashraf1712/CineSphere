@@ -4,7 +4,7 @@ import { fetchMovieByGenreAndRatings } from "@/Service/tmdbService";
 import React, { useRef } from 'react'
 import { Movie, } from "@/types/Movie";
 import { MovieCard } from "../MovieCard/MovieCard";
-
+import PaginationButton from "../Button/PaginationButton";
 
 interface MovieContentProps {
   sortResult: string;
@@ -85,28 +85,32 @@ const MovieContent: React.FC<MovieContentProps> = ({ sortResult, minRating, maxR
 
   return (
     <div>
-      <button onClick={handlePreviousPage} disabled={pageNumber === 1} className={`mr-2 ${pageNumber === 1 ? "" : "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"}`}>Previous</button>
-      <button onClick={handleNextPage} className="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-        Next
-      </button>
-      <div className="flex ">
+      <div className="pt-16">
+        <div className="mx-auto bg-neutral-800  ml-16 mr-16 shadow-lg rounded-sm">
+          <p className="p-4 text-2xl font-bold text-white">Popular Movies</p>
+        </div>
       </div>
 
-      <h1 className="text-xl font-bold mb-4">Popular Movies</h1>
-      <div className="flex flex-wrap justify-center gap-4">
+      <div className="flex justify-center flex-wrap gap-5 px-16 py-16 mx-auto lg:px-2 sm:px-4">
         {data.map((movie, index) => (
-          <MovieCard
-            key={index}
-            id={movie.id}
-            image={movie.poster_path}
-            title={movie.title}
-            date={movie.release_date}
-            rating={movie.vote_average}
-            description={movie.overview}
-            genreId={movie.genre_ids}
-          />
+          <div key={index} className="w-full sm:w-2/3 md:w-1/4 lg:w-1/5 xl:w-1/6 ">
+            <div className="relative">
+              <MovieCard
+                id={movie.id}
+                image={movie.poster_path}
+                title={movie.title}
+                date={movie.release_date}
+                rating={movie.vote_average}
+                description={movie.overview}
+                genreId={movie.genre_ids}
+              />
+            </div>
+          </div>
         ))}
       </div>
+
+
+      <PaginationButton onClickNext={handleNextPage} onClickPrev={handlePreviousPage} />
 
 
     </div>

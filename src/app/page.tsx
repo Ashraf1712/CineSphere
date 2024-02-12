@@ -8,6 +8,10 @@ import { useState, useEffect } from "react";
 import { genres as allGenres } from "../types/Movie";
 import AnimatedHamburgerButton from "@/Components/Button/AnimatedHamburgerButton";
 import { Button } from "@chakra-ui/react";
+import {
+  BsFillArrowUpCircleFill,
+} from "react-icons/bs";
+
 
 
 export default function Home() {
@@ -38,7 +42,6 @@ export default function Home() {
   const [navOpen, setNavOpen] = useState(false);
 
 
-
   const handleRatingChange = (newMinRating: number, newMaxRating: number) => {
     setMinRating(newMinRating);
     setMaxRating(newMaxRating);
@@ -46,6 +49,7 @@ export default function Home() {
 
   const handleSortChange = (selectedOption: string) => {
     setSelectedSortOption(selectedOption);
+
   };
 
   const handleCheckboxChange = async (genreId: number) => {
@@ -63,7 +67,9 @@ export default function Home() {
 
   const handleSearch = async () => {
     setDummyState(prevState => !prevState);
+    toggleNav();
   };
+
   const toggleNav = () => {
     setNavOpen(!navOpen);
     if (!navOpen) {
@@ -79,16 +85,23 @@ export default function Home() {
     }
   };
 
+  const scrollMode = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+  };
+
 
   return (
     <>
       <div className={`fixed ${navOpen ? 'backdrop-blur-md inset-0' : 'relative'} bg-black bg-opacity-50 z-30 overflow-hidden`} onClick={handleBackgroundClick}>
+
         <div className={`fixed w-full ${navOpen ? 'inset-0' : ''}`}>
-          <nav className="flex justify-between items-center p-4 bg-gray-800 text-white">
-            <div className="z-20">
+          <nav className="flex justify-between items-center p-4 bg-neutral-900 text-white">
+            <div className="flex flex-wrap justify-between gap-2 z-20">
               <AnimatedHamburgerButton onClick={toggleNav} isOpen={navOpen} />
+              <p className="font-bebas" >CineSphere</p>
             </div>
-            <div className={`absolute top-0 left-0 h-full w-2/3 bg-gray-600 z-999 transition-all duration-300 ${navOpen ? 'opacity-100' : 'opacity-0 -translate-x-full'}`} onClick={(e) => e.stopPropagation()}>
+            <div className={`absolute top-0 left-0 h-full w-2/3 sm:w-1/2 md:w-1/3 lg:w-1/4 bg-gray-600 z-999 transition-all duration-300 ${navOpen ? 'opacity-100' : 'opacity-0 -translate-x-full'}`} onClick={(e) => e.stopPropagation()}>
               <div className="flex flex-col h-full pt-14">
                 <div className="flex-grow">
                   <div className="flex-row">
@@ -109,7 +122,7 @@ export default function Home() {
                       toggleDropdown={toggleDropdown}
                     />
                   </div>
-                  <div className="flex-row p-5">
+                  <div className="flex-row p-5" onClick={(e) => e.stopPropagation()}>
                     <FilterRating labelText={"Ratings"} min={0} max={10} minRating={minRating} maxRating={maxRating} handleRatingChange={handleRatingChange} />
                   </div>
                 </div>
@@ -123,7 +136,10 @@ export default function Home() {
           </nav>
         </div>
       </div>
-      <div className="bg-green-500 mb-4 z-10">
+      <div className="cursor-pointer fixed bottom-0 right-0 p-5 align-bottom z-10 text-3xl dark:text-white lg:text-5xl md:text-4xl">
+        <BsFillArrowUpCircleFill onClick={scrollMode} />
+      </div>
+      <div className="bg-neutral-900 mb-4 z-10">
         <MovieContent sortResult={selectedSortOption} minRating={minRating} maxRating={maxRating} genreId={selectedGenres} dummyState={dummyState} />
       </div>
     </>

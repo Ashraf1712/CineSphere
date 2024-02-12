@@ -28,14 +28,18 @@ const FilterRating: React.FC<FilterRatingProps> = ({
             <div>
                 {labelText}
             </div>
-            <Slider
-                range
-                min={min}
-                max={max}
-                defaultValue={[minRating, maxRating]}
-                onChange={handleChange} // @ts-ignore
-
-            />
+            <div className="flex items-center">
+                <label className="mr-2">0</label>
+                <Slider
+                    range
+                    min={min}
+                    max={max}
+                    defaultValue={[minRating, maxRating]}
+                    onChange={handleChange}
+                    className="flex-1"
+                />
+                <label className="ml-2">10</label>
+            </div>
         </div>
     );
 };

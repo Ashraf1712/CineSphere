@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
 import Image from 'next/image';
-import { StarIcon, XMarkIcon } from "@heroicons/react/16/solid";
+import { XMarkIcon } from "@heroicons/react/16/solid";
 import { fetchMovieCastByMovieId } from "@/Service/tmdbService";
 import { MovieCast } from "@/types/Movie";
 import { formattedDate } from "@/utils/helper";
 import BlankProfile from "@/../public/blankProfile.png"
-
+import IMDBIcon from "@/../public/imdbIcon.png"
 
 type MovieModalProps = {
     isOpen: boolean,
@@ -62,15 +62,14 @@ export const MovieModal = ({ id, image, title, description, date, rating, isOpen
     return (
         <>
             {isOpen && (
+                // TODO: ADD X BUTTON ON TOP RIGHT CORNER
                 <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-black bg-opacity-50 z-50 p-5" onClick={handleBackgroundClick}>
-                    <div className="bg-white rounded-lg shadow-lg max-w-screen-md w-full h-full overflow-y-auto p-3 relative">
-                        {/* <XMarkIcon className="text-gray-500 absolute top-3 right-3 cursor-pointer" onClick={closeModal} /> */}
-
-                        <button className="text-gray-500 absolute top-3 right-3" onClick={handleBackgroundClick}>X</button>
-                        <div className="p-1 flex flex-col md:flex-row">
+                    <div className="bg-neutral-500 rounded-lg shadow-lg max-w-screen-md w-full h-full overflow-y-auto p-3 relative">
+                        <div className="p-2 flex flex-col md:flex-row">
                             {/* Movie Poster */}
-                            <div className="overflow-hidden rounded-lg bg-gray-200 mb-4 md:mb-0 md:mr-4">
+                            <div className="rounded-lg  p-4">
                                 <Image
+                                    className="rounded-lg"
                                     src={`${process.env.IMAGE_URL}w500${image}?api_key=${process.env.DATA_API_KEY}`}
                                     alt="Movie Poster"
                                     width={600}
@@ -79,20 +78,22 @@ export const MovieModal = ({ id, image, title, description, date, rating, isOpen
                             </div>
                             {/* Movie Details */}
                             <div>
-                                <h2 className="text-4xl font-extrabold mt-4 text-gray-900">{title} <span className=" font-light text-gray-600">({year})</span></h2>
-                                <p className="mt-2 text-gray-600 flex items-center">
+                                <h2 className="text-4xl font-extrabold mt-4 text-white">{title} <span className=" font-light text-slate-200">({year})</span></h2>
+                                <p className="mt-2 text-white flex items-center">
                                     {formattedDateString}
-                                    <span className="ml-2 flex items-center">
-                                        <p className="text-lg font-medium text-gray-900">{roundedRating}</p>
-                                        <StarIcon className="w-6 h-6 ml-1 text-yellow-500" />
+                                    <span className="pl-2 ml-2 flex items-center gap-2">
+                                        <p className="text-lg font-medium text-white">{roundedRating}</p>
+                                        {/* <StarIcon className="w-6 h-6 ml-1 text-yellow-500" /> */}
+                                        <Image src={IMDBIcon} alt="ratingIcon" height={32} width={32} />
+
                                     </span>
                                 </p>
-                                <p className="mt-2 text-gray-900">{description}</p>
+                                <p className="mt-2 text-white">{description}</p>
                             </div>
                         </div>
                         {/* Cast Section */}
                         <div className="mt-3 md:mt-20">
-                            <div className="text-md font-semibold text-gray-900">Cast</div>
+                            <div className="pl-2 text-xl font-semibold text-white">Cast</div>
                             <div className="flex overflow-x-auto gap-4 p-2">
                                 {cast.map(member => (
                                     <div key={member.id} className="flex-shrink-0 mr-4">
@@ -124,6 +125,7 @@ export const MovieModal = ({ id, image, title, description, date, rating, isOpen
                         </div>
                     </div>
                 </div>
+                // TODO: ADD CLOSE BUTTON ON BOTTOM RIGHT CORNER
             )}
 
 
