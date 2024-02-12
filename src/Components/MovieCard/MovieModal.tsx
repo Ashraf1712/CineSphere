@@ -6,20 +6,21 @@ import { MovieCast } from "@/types/Movie";
 import { formattedDate } from "@/utils/helper";
 import BlankProfile from "@/../public/blankProfile.png"
 import IMDBIcon from "@/../public/imdbIcon.png"
+import { Button, CloseButton } from "@chakra-ui/react";
 
 type MovieModalProps = {
-    isOpen: boolean,
-    id: number,
-    image: string | null,
-    title: string,
-    description: string,
-    date: string,
-    rating: number,
-    onClose: () => void,
-
+    isOpen: boolean;
+    id: number;
+    image: string | null;
+    title: string;
+    description: string;
+    date: string;
+    rating: number;
+    onClose: () => void;
+    genreNames: string[];
 }
 
-export const MovieModal = ({ id, image, title, description, date, rating, isOpen, onClose }: MovieModalProps) => {
+export const MovieModal = ({ id, image, title, description, date, rating, isOpen, onClose, genreNames }: MovieModalProps) => {
     const [cast, setCast] = useState<MovieCast[]>([]);
     const year = new Date(date).getFullYear();
 
@@ -62,12 +63,17 @@ export const MovieModal = ({ id, image, title, description, date, rating, isOpen
     return (
         <>
             {isOpen && (
-                // TODO: ADD X BUTTON ON TOP RIGHT CORNER
-                <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-black bg-opacity-50 z-50 p-5" onClick={handleBackgroundClick}>
+
+                <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center backdrop-blur-md bg-black bg-opacity-50 z-50 p-5" onClick={handleBackgroundClick}>
+
                     <div className="bg-neutral-500 rounded-lg shadow-lg max-w-screen-md w-full h-full overflow-y-auto p-3 relative">
-                        <div className="p-2 flex flex-col md:flex-row">
+                        <div className="justify-end flex">
+                            <CloseButton size='lg' color={"white"} onClick={closeModal} />
+                        </div>
+
+                        <div className="p-2 grid grid-rows-3 grid-flow-col gap-4  ">
                             {/* Movie Poster */}
-                            <div className="rounded-lg  p-4">
+                            <div className="rounded-lg  p-4 row-span-3">
                                 <Image
                                     className="rounded-lg"
                                     src={`${process.env.IMAGE_URL}w500${image}?api_key=${process.env.DATA_API_KEY}`}
@@ -77,29 +83,42 @@ export const MovieModal = ({ id, image, title, description, date, rating, isOpen
                                 />
                             </div>
                             {/* Movie Details */}
-                            <div>
-                                <h2 className="text-4xl font-extrabold mt-4 text-white">{title} <span className=" font-light text-slate-200">({year})</span></h2>
-                                <p className="mt-2 text-white flex items-center">
-                                    {formattedDateString}
-                                    <span className="pl-2 ml-2 flex items-center gap-2">
-                                        <p className="text-lg font-medium text-white">{roundedRating}</p>
-                                        {/* <StarIcon className="w-6 h-6 ml-1 text-yellow-500" /> */}
-                                        <Image src={IMDBIcon} alt="ratingIcon" height={32} width={32} />
+                            <div className="row-span-3">
+                                <p className="text-4xl font-extrabold pt-4 text-white pb-2">{title} <span className=" font-light text-slate-200">({year})</span></p>
+                                <div className="flex items-center ">
+                                    <p className=" text-white pr-2">
+                                        {formattedDateString}
+                                    </p>
+                                    <div className="text-white pr-2">•</div>
+                                    {/* GENRE HERE */}
+                                    <div className={`col-span-${genreNames.length} md:flex`}>
+                                        {genreNames.map((genre, index) => (
+                                            <div key={index} >
+                                                <span className="font-normal text-white ">{genre}</span>
+                                                {index !== genreNames.length - 1 && <span className="font-bold text-white"> ,</span>}
+                                            </div>
+                                        ))}
 
-                                    </span>
-                                </p>
+                                    </div>
+                                    <div className="text-white pl-2">•</div>
+
+                                    <p className="text-md font-medium text-white pl-2 pr-1">{roundedRating}</p>
+                                    <Image src={IMDBIcon} alt="ratingIcon" height={32} width={32} />
+
+                                </div>
+
                                 <p className="mt-2 text-white">{description}</p>
                             </div>
                         </div>
                         {/* Cast Section */}
-                        <div className="mt-3 md:mt-20">
+                        <div className="mt-3 md:pt-4">
                             <div className="pl-2 text-xl font-semibold text-white">Cast</div>
                             <div className="flex overflow-x-auto gap-4 p-2">
                                 {cast.map(member => (
                                     <div key={member.id} className="flex-shrink-0 mr-4">
                                         <div className="bg-white rounded-lg shadow-lg overflow-hidden w-28 h-full">
                                             <a className="group">
-                                                <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-t-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7">
+                                                <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-t-lg xl:aspect-h-8 xl:aspect-w-7">
                                                     {member.profile_path ? <Image
                                                         src={`https://image.tmdb.org/t/p/original${member.profile_path}`}
                                                         alt={member.name}
@@ -122,10 +141,14 @@ export const MovieModal = ({ id, image, title, description, date, rating, isOpen
                                     </div>
                                 ))}
                             </div>
+                            <div className="p-3 justify-end flex">
+                                <Button onClick={closeModal}>Close</Button>
+                            </div>
+
                         </div>
+
                     </div>
                 </div>
-                // TODO: ADD CLOSE BUTTON ON BOTTOM RIGHT CORNER
             )}
 
 

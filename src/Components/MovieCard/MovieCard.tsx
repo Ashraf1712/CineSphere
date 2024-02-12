@@ -95,6 +95,7 @@ export const MovieCard = ({ id, image, title, description, date, rating, genreId
                 rating={rating}
                 isOpen={toggle}
                 onClose={handleModalClose}
+                genreNames={genreNames}
             />
         </div >
     );
