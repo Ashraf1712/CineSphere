@@ -5,12 +5,7 @@ import { Providers } from './providers'
 
 
 const inter = Inter({ subsets: ["latin"] });
-const kanit = Kanit({
-  weight: '900',
-  subsets: ['latin'],
-  variable: '--font-kanit',
-  style: 'italic'
-})
+
 
 export const metadata: Metadata = {
   title: "CineSphere",
@@ -23,7 +18,7 @@ export default function RootLayout({
   children: React.ReactNode,
 }) {
   return (
-    <html lang='en' className={`bg-neutral-900 ${inter.className} ${kanit.variable}`}>
+    <html lang='en' className={`bg-neutral-900 ${inter.className} `}>
       <body>
         <Providers>
           {children}

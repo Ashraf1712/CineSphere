@@ -9,6 +9,14 @@ import FilterRating from '@/Components/Filter/FilterRating';
 import SortResult from '@/Components/Sort/SortResult';
 import MovieContent from '@/Components/MovieList/MovieContent';
 import { BsFillArrowUpCircleFill } from 'react-icons/bs';
+import { Kanit } from 'next/font/google';
+
+const kanit = Kanit({
+  weight: '900',
+  subsets: ['latin'],
+  variable: '--font-kanit',
+  style: 'italic'
+})
 
 const Home: React.FC = () => {
 
@@ -134,6 +142,8 @@ const Home: React.FC = () => {
   };
 
 
+
+
   return (
     <>
       <div className={`fixed ${navOpen ? 'backdrop-blur-md inset-0' : 'relative'} bg-black bg-opacity-50 z-30 overflow-hidden`} onClick={handleBackgroundClick}>
@@ -146,7 +156,7 @@ const Home: React.FC = () => {
 
 
             <div className='pl-5'>
-              <p className="font-kanit text-xl">CineSphere</p>
+              <p className={kanit.className}>CineSphere</p>
             </div>
             <div className={`absolute top-0 left-0 h-full w-2/3 sm:w-1/2 md:w-1/3 lg:w-1/4 bg-gray-600 z-999  duration-300 ${navOpen ? 'opacity-100' : ' opacity-0 -translate-x-full '}`} onClick={(e) => e.stopPropagation()}>
               <div className="flex flex-col h-full pt-14 "  >
