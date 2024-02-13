@@ -18,16 +18,14 @@ const FilterRating: React.FC<FilterRatingProps> = ({
     maxRating,
     handleRatingChange,
 }) => {
-    const handleChange = (values: [number, number]) => {
+    const handleChange = (values: number[]) => {
         const [minVal, maxVal] = values;
         handleRatingChange(minVal, maxVal);
     };
 
     return (
         <div>
-            <div>
-                {labelText}
-            </div>
+            <div>{labelText}</div>
             <div className="flex items-center">
                 <label className="mr-2">0</label>
                 <Slider
