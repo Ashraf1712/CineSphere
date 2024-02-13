@@ -86,20 +86,19 @@ export const MovieModal = ({ id, image, title, description, date, rating, isOpen
                             {/* Movie Details */}
                             <div className="row-span-2">
                                 <p className="text-4xl font-extrabold pt-4 text-white pb-2">{title} <span className=" font-light text-slate-200">({year})</span></p>
-                                <div className="flex items-center justify-between ">
+                                <div className="flex items-center">
                                     <p className=" text-white pr-2">
                                         {formattedDateString}
                                     </p>
                                     <div className="text-white pr-2">•</div>
                                     {/* GENRE HERE */}
-                                    <div className={`col-span-${genreNamesArray.length} md:flex `}>
+                                    <div className="flex">
                                         {genreNamesArray.map((genre, index) => (
-                                            <div key={index} >
-                                                <span className="font-normal text-white ">{genre}</span>
+                                            <div key={index} className="flex items-center">
+                                                <span className="font-normal text-white">{genre}</span>
                                                 {index !== genreNamesArray.length - 1 && <span className="font-bold text-white"> ,</span>}
                                             </div>
                                         ))}
-
                                     </div>
                                     <div className="text-white pl-2">•</div>
 
