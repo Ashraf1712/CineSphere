@@ -72,7 +72,7 @@ export const MovieModal = ({ id, image, title, description, date, rating, isOpen
                             <CloseButton size='lg' color={"white"} onClick={closeModal} />
                         </div>
 
-                        <div className="p-2 grid grid-rows-2 grid-flow-col gap-4  ">
+                        <div className="p-2 sm:grid sm:grid-rows-2 grid-flow-col gap-4">
                             {/* Movie Poster */}
                             <div className="  p-4 row-span-2">
                                 <Image
@@ -86,13 +86,13 @@ export const MovieModal = ({ id, image, title, description, date, rating, isOpen
                             {/* Movie Details */}
                             <div className="row-span-2">
                                 <p className="text-4xl font-extrabold pt-4 text-white pb-2">{title} <span className=" font-light text-slate-200">({year})</span></p>
-                                <div className="flex items-center ">
+                                <div className="flex items-center justify-between ">
                                     <p className=" text-white pr-2">
                                         {formattedDateString}
                                     </p>
                                     <div className="text-white pr-2">•</div>
                                     {/* GENRE HERE */}
-                                    <div className={`col-span-${genreNamesArray.length} md:flex`}>
+                                    <div className={`col-span-${genreNamesArray.length} md:flex `}>
                                         {genreNamesArray.map((genre, index) => (
                                             <div key={index} >
                                                 <span className="font-normal text-white ">{genre}</span>
