@@ -57,7 +57,23 @@ const Home: React.FC = () => {
     } else {
       document.body.style.overflow = 'auto';
     }
-  }, [navOpen]);
+    const handleClickOutside = (event: MouseEvent) => {
+      const filterGenreElement = document.getElementById('filter-genre');
+      if (
+        dropdownVisible &&
+        filterGenreElement &&
+        !filterGenreElement.contains(event.target as Node)
+      ) {
+        setDropdownVisible(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [navOpen, dropdownVisible]);
 
   const handleRatingChange = (newMinRating: number, newMaxRating: number) => {
     setMinRating(newMinRating);
@@ -106,6 +122,7 @@ const Home: React.FC = () => {
         setMaxRating(tempState.maxRating);
       }
     }
+
   };
 
   const scrollMode = () => {
@@ -121,7 +138,7 @@ const Home: React.FC = () => {
     <>
       <div className={`fixed ${navOpen ? 'backdrop-blur-md inset-0' : 'relative'} bg-black bg-opacity-50 z-30 overflow-hidden`} onClick={handleBackgroundClick}>
         <div className={`fixed w-full ${navOpen ? 'inset-0' : ''}`} >
-          <nav className="flex items-center p-4 bg-neutral-900 text-white" >
+          <nav id="nav-bar" className="flex items-center p-4 bg-neutral-900 text-white" >
 
             <div className='z-20'>
               <AnimatedHamburgerButton onClick={toggleNav} isOpen={navOpen} />
@@ -132,7 +149,7 @@ const Home: React.FC = () => {
               <p className="font-kanit text-xl">CineSphere</p>
             </div>
             <div className={`absolute top-0 left-0 h-full w-2/3 sm:w-1/2 md:w-1/3 lg:w-1/4 bg-gray-600 z-999  duration-300 ${navOpen ? 'opacity-100' : ' opacity-0 -translate-x-full '}`} onClick={(e) => e.stopPropagation()}>
-              <div className="flex flex-col h-full pt-14 ">
+              <div className="flex flex-col h-full pt-14 "  >
                 <div className="flex-grow h-full bg-gray-600 ">
                   <div className="flex-row">
                     <p className=" px-5 p-3 font-bold text-4xl">Filters</p>
@@ -141,7 +158,7 @@ const Home: React.FC = () => {
                     <SortResult labelText={"Sort By"} selectedOption={selectedSortOption} onSortChange={handleSortChange} />
                   </div>
 
-                  <div className="flex-row p-5 ">
+                  <div id={"filter-genre"} className="flex-row p-5 ">
                     <FilterGenre
                       labelText={"Genre"}
                       genres={allGenres}

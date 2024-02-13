@@ -72,9 +72,9 @@ export const MovieModal = ({ id, image, title, description, date, rating, isOpen
                             <CloseButton size='lg' color={"white"} onClick={closeModal} />
                         </div>
 
-                        <div className="p-2 grid grid-rows-3 grid-flow-col gap-4  ">
+                        <div className="p-2 grid grid-rows-2 grid-flow-col gap-4  ">
                             {/* Movie Poster */}
-                            <div className="  p-4 row-span-3">
+                            <div className="  p-4 row-span-2">
                                 <Image
                                     className="rounded-lg"
                                     src={`${process.env.IMAGE_URL}w500${image}?api_key=${process.env.DATA_API_KEY}`}
@@ -84,7 +84,7 @@ export const MovieModal = ({ id, image, title, description, date, rating, isOpen
                                 />
                             </div>
                             {/* Movie Details */}
-                            <div className="row-span-3">
+                            <div className="row-span-2">
                                 <p className="text-4xl font-extrabold pt-4 text-white pb-2">{title} <span className=" font-light text-slate-200">({year})</span></p>
                                 <div className="flex items-center ">
                                     <p className=" text-white pr-2">
@@ -108,7 +108,7 @@ export const MovieModal = ({ id, image, title, description, date, rating, isOpen
 
                                 </div>
 
-                                <p className="mt-2 text-white">{description}</p>
+                                <p className="mt-2 text-white col-span-2">{description}</p>
                             </div>
                         </div>
                         {/* Cast Section */}

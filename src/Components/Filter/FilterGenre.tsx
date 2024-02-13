@@ -64,6 +64,8 @@ const FilterGenre: React.FC<FilterGenreProps> = ({
                     zIndex={20}
                     maxHeight="500px"
                     overflowY="auto"
+                    minWidth={220}
+                    rounded={"lg"}
                 >
                     {genres.map(genre => (
                         <Box key={genre.id} className="block pb-1">

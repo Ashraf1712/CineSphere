@@ -6,10 +6,8 @@ interface Props {
 }
 
 const AnimatedHamburgerButton: React.FC<Props> = ({ onClick, isOpen }) => {
-    // const [_isOpen, setIsOpen] = useState(false);
 
     const toggleMenu = () => {
-        // setIsOpen(!_isOpen);
         onClick();
     };
 
